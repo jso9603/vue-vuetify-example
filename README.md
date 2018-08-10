@@ -19,3 +19,6 @@ npm run build
 ```
 npm run lint
 ```
+
+#### project
+`vue/cli` 사용
