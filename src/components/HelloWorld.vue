@@ -823,6 +823,207 @@
   </v-container>
   </v-flex>
 
+  <v-flex>
+    <span>data table</span>
+    <v-data-table :headers="headers" :items="dessert" hide-actions class="elevation-1">
+      <template slot="items" slot-scope="props">
+        <td>{{ props.item.name }}</td>
+        <td class="text-xs-right">{{ props.item.calories }}</td>
+        <td class="text-xs-right">{{ props.item.fat }}</td>
+        <td class="text-xs-right">{{ props.item.carbs }}</td>
+        <td class="text-xs-right">{{ props.item.protein }}</td>
+        <td class="text-xs-right">{{ props.item.iron }}</td>
+      </template>
+      <template slot="no-data">
+        <v-alert :value="true" color="error" icon="warning">
+          Sorry, nothing to display here :(
+        </v-alert>
+      </template>
+    </v-data-table>
+
+    <v-data-table
+      v-model="dataSelected"
+      :headers="headers"
+      :items="desserts"
+      :pagination.sync="pagination"
+      select-all
+      item-key="name"
+      class="elevation-1"
+    >
+      <template slot="headers" slot-scope="props">
+        <tr>
+          <th>
+            <v-checkbox
+              :input-value="props.all"
+              :indeterminate="props.indeterminate"
+              primary
+              hide-details
+              @click.native="toggleAll"
+            ></v-checkbox>
+          </th>
+          <th
+            v-for="header in props.headers"
+            :key="header.text"
+            :class="['column sortable', pagination.descending ? 'desc' : 'asc', header.value === pagination.sortBy ? 'active' : '']"
+            @click="changeSort(header.value)"
+          >
+            <v-icon small>arrow_upward</v-icon>
+            {{ header.text }}
+          </th>
+        </tr>
+      </template>
+      <template slot="items" slot-scope="props">
+        <tr :active="props.dataSelected" @click="props.dataSelected = !props.dataSelected">
+          <td>
+            <v-checkbox
+              :input-value="props.dataSelected"
+              primary
+              hide-details
+            ></v-checkbox>
+          </td>
+          <td>{{ props.item.name }}</td>
+          <td class="text-xs-right">{{ props.item.calories }}</td>
+          <td class="text-xs-right">{{ props.item.fat }}</td>
+          <td class="text-xs-right">{{ props.item.carbs }}</td>
+          <td class="text-xs-right">{{ props.item.protein }}</td>
+          <td class="text-xs-right">{{ props.item.iron }}</td>
+        </tr>
+      </template>
+    </v-data-table>
+
+    <v-data-table
+      :headers="headers"
+      :items="desserts"
+      :search="search"
+      v-model="selected"
+      item-key="name"
+      select-all
+      class="elevation-1"
+    >
+      <template slot="headerCell" slot-scope="props">
+        <v-tooltip bottom>
+          <span slot="activator">
+            {{ props.header.text }}
+          </span>
+          <span>
+            {{ props.header.text }}
+          </span>
+        </v-tooltip>
+      </template>
+      <template slot="items" slot-scope="props">
+        <td>
+          <v-checkbox
+            v-model="props.selected"
+            primary
+            hide-details
+          ></v-checkbox>
+        </td>
+        <td>{{ props.item.name }}</td>
+        <td class="text-xs-right">{{ props.item.calories }}</td>
+        <td class="text-xs-right">{{ props.item.fat }}</td>
+        <td class="text-xs-right">{{ props.item.carbs }}</td>
+        <td class="text-xs-right">{{ props.item.protein }}</td>
+        <td class="text-xs-right">{{ props.item.iron }}</td>
+      </template>
+    </v-data-table>
+
+    <v-card>
+      <v-card-title>
+        Nutrition
+        <v-spacer></v-spacer>
+        <v-text-field
+          v-model="search"
+          append-icon="search"
+          label="Search"
+          single-line
+          hide-details
+        ></v-text-field>
+      </v-card-title>
+      <v-data-table
+        :headers="headers"
+        :items="desserts"
+        :search="search"
+      >
+        <template slot="items" slot-scope="props">
+          <td>{{ props.item.name }}</td>
+          <td class="text-xs-right">{{ props.item.calories }}</td>
+          <td class="text-xs-right">{{ props.item.fat }}</td>
+          <td class="text-xs-right">{{ props.item.carbs }}</td>
+          <td class="text-xs-right">{{ props.item.protein }}</td>
+          <td class="text-xs-right">{{ props.item.iron }}</td>
+        </template>
+        <v-alert slot="no-results" :value="true" color="error" icon="warning">
+          Your search for "{{ search }}" found no results.
+        </v-alert>
+      </v-data-table>
+    </v-card>
+
+    <div>
+      <v-data-table
+        :headers="headers"
+        :items="desserts"
+      >
+        <template slot="items" slot-scope="props">
+          <td>
+            <v-edit-dialog
+              :return-value.sync="props.item.name"
+              lazy
+              @save="save"
+              @cancel="cancel"
+              @open="open"
+              @close="close"
+            > {{ props.item.name }}
+              <v-text-field
+                slot="input"
+                v-model="props.item.name"
+                :rules="[max25chars]"
+                label="Edit"
+                single-line
+                counter
+              ></v-text-field>
+            </v-edit-dialog>
+          </td>
+          <td class="text-xs-right">{{ props.item.calories }}</td>
+          <td class="text-xs-right">{{ props.item.fat }}</td>
+          <td class="text-xs-right">{{ props.item.carbs }}</td>
+          <td class="text-xs-right">{{ props.item.protein }}</td>
+          <td class="text-xs-right">
+            <v-edit-dialog
+              :return-value.sync="props.item.iron"
+              large
+              lazy
+              persistent
+              @save="save"
+              @cancel="cancel"
+              @open="open"
+              @close="close"
+            >
+              <div>{{ props.item.iron }}</div>
+              <div slot="input" class="mt-3 title">Update Iron</div>
+              <v-text-field
+                slot="input"
+                v-model="props.item.iron"
+                :rules="[max25chars]"
+                label="Edit"
+                single-line
+                counter
+                autofocus
+              ></v-text-field>
+            </v-edit-dialog>
+          </td>
+        </template>
+        <template slot="pageText" slot-scope="{ pageStart, pageStop }">
+          From {{ pageStart }} to {{ pageStop }}
+        </template>
+      </v-data-table>
+
+      <v-snackbar v-model="snack" :timeout="3000" :color="snackColor">
+        {{ snackText }}
+        <v-btn flat @click="snack = false">Close</v-btn>
+      </v-snackbar>
+    </div>
+  </v-flex>
+
   </div>
 </template>
 
@@ -1027,7 +1228,121 @@ export default {
           calcium: '2%',
           iron: '22%'
         }
-      ]
+      ],
+      // data table
+      headers: [
+        {
+          text: 'Dessert (100g serving)',
+          align: 'left',
+          sortable: false,
+          value: 'name'
+        },
+        { text: 'Calories', value: 'calories' },
+        { text: 'Fat (g)', value: 'fat' },
+        { text: 'Carbs (g)', value: 'carbs' },
+        { text: 'Protein (g)', value: 'protein' },
+        { text: 'Iron (%)', value: 'iron' }
+      ],
+      dessert: [],
+      desserts: [
+        {
+          value: false,
+          name: 'Frozen Yogurt',
+          calories: 159,
+          fat: 6.0,
+          carbs: 24,
+          protein: 4.0,
+          iron: '1%'
+        },
+        {
+          value: false,
+          name: 'Ice cream sandwich',
+          calories: 237,
+          fat: 9.0,
+          carbs: 37,
+          protein: 4.3,
+          iron: '1%'
+        },
+        {
+          value: false,
+          name: 'Eclair',
+          calories: 262,
+          fat: 16.0,
+          carbs: 23,
+          protein: 6.0,
+          iron: '7%'
+        },
+        {
+          value: false,
+          name: 'Cupcake',
+          calories: 305,
+          fat: 3.7,
+          carbs: 67,
+          protein: 4.3,
+          iron: '8%'
+        },
+        {
+          value: false,
+          name: 'Gingerbread',
+          calories: 356,
+          fat: 16.0,
+          carbs: 49,
+          protein: 3.9,
+          iron: '16%'
+        },
+        {
+          value: false,
+          name: 'Jelly bean',
+          calories: 375,
+          fat: 0.0,
+          carbs: 94,
+          protein: 0.0,
+          iron: '0%'
+        },
+        {
+          value: false,
+          name: 'Lollipop',
+          calories: 392,
+          fat: 0.2,
+          carbs: 98,
+          protein: 0,
+          iron: '2%'
+        },
+        {
+          value: false,
+          name: 'Honeycomb',
+          calories: 408,
+          fat: 3.2,
+          carbs: 87,
+          protein: 6.5,
+          iron: '45%'
+        },
+        {
+          value: false,
+          name: 'Donut',
+          calories: 452,
+          fat: 25.0,
+          carbs: 51,
+          protein: 4.9,
+          iron: '22%'
+        },
+        {
+          value: false,
+          name: 'KitKat',
+          calories: 518,
+          fat: 26.0,
+          carbs: 65,
+          protein: 7,
+          iron: '6%'
+        }
+      ],
+      dataSelected: [],
+      selected: [],
+      search: '',
+      snack: false,
+      snackColor: '',
+      snackText: '',
+      max25chars: (v) => v.length <= 25 || 'Input too long!'
     }
   },
   watch: {
@@ -1053,10 +1368,40 @@ export default {
       }
     }
   },
-  method: {
+  methods: {
     remove (item) {
       this.chips.splice(this.chips.indexOf(item), 1)
       this.chips = [...this.chips]
+    },
+    toggleAll () {
+      if (this.dataSelected.length) this.dataSelected = []
+      else this.dataSelected = this.desserts.slice()
+    },
+    changeSort (column) {
+      if (this.pagination.sortBy === column) {
+        this.pagination.descending = !this.pagination.descending
+      } else {
+        this.pagination.sortBy = column
+        this.pagination.descending = false
+      }
+    },
+    save () {
+        this.snack = true
+        this.snackColor = 'success'
+        this.snackText = 'Data saved'
+    },
+    cancel () {
+      this.snack = true
+      this.snackColor = 'error'
+      this.snackText = 'Canceled'
+    },
+    open () {
+      this.snack = true
+      this.snackColor = 'info'
+      this.snackText = 'Dialog opened'
+    },
+    close () {
+      console.log('Dialog closed')
     }
   }
 }
