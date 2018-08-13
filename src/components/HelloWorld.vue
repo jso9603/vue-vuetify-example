@@ -1024,6 +1024,165 @@
     </div>
   </v-flex>
 
+  <v-flex>
+    <span>dialog</span>
+    <v-dialog v-model="dialog1" width="500">
+      <v-btn slot="activator" color="red lighten-2" dark>
+        Click Me
+      </v-btn>
+
+      <v-card>
+        <v-card-title class="headline grey lighten-2" primary-title>
+          Privacy Policy
+        </v-card-title>
+        <v-card-text>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+        </v-card-text>
+        <v-divider></v-divider>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="primary" flat @click="dialog1 = false">
+            I accept
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+
+    <v-dialog v-model="dialog2" persistent max-width="290">
+      <v-btn slot="activator" color="primary" dark>Open Dialog</v-btn>
+      <v-card>
+        <v-card-title class="headline">Use Google's location service?</v-card-title>
+        <v-card-text>Let Google help apps determine location. This means sending anonymous location data to Google, even when no apps are running.</v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="green darken-1" flat @click.native="dialog2 = false">Disagree</v-btn>
+          <v-btn color="green darken-1" flat @click.native="dialog2 = false">Agree</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+
+    <v-dialog v-model="dialog3" fullscreen hide-overlay transition="dialog-bottom-transition">
+      <v-btn slot="activator" color="primary" dark>Open Dialog</v-btn>
+      <v-card>
+        <v-toolbar dark color="primary">
+          <v-btn icon dark @click.native="dialog3 = false">
+            <v-icon>close</v-icon>
+          </v-btn>
+          <v-toolbar-title>Settings</v-toolbar-title>
+          <v-spacer></v-spacer>
+          <v-toolbar-items>
+            <v-btn dark flat @click.native="dialog3 = false">Save</v-btn>
+          </v-toolbar-items>
+        </v-toolbar>
+        <v-list three-line subheader>
+          <v-subheader>User Controls</v-subheader>
+          <v-list-tile avatar>
+            <v-list-tile-content>
+              <v-list-tile-title>Content filtering</v-list-tile-title>
+              <v-list-tile-sub-title>Set the content filtering level to restrict apps that can be downloaded</v-list-tile-sub-title>
+            </v-list-tile-content>
+          </v-list-tile>
+          <v-list-tile avatar>
+            <v-list-tile-content>
+              <v-list-tile-title>Password</v-list-tile-title>
+              <v-list-tile-sub-title>Require password for purchase or use password to restrict purchase</v-list-tile-sub-title>
+            </v-list-tile-content>
+          </v-list-tile>
+        </v-list>
+        <v-divider></v-divider>
+        <v-list three-line subheader>
+          <v-subheader>General</v-subheader>
+          <v-list-tile avatar>
+            <v-list-tile-action>
+              <v-checkbox v-model="notifications"></v-checkbox>
+            </v-list-tile-action>
+            <v-list-tile-content>
+              <v-list-tile-title>Notifications</v-list-tile-title>
+              <v-list-tile-sub-title>Notify me about updates to apps or games that I downloaded</v-list-tile-sub-title>
+            </v-list-tile-content>
+          </v-list-tile>
+          <v-list-tile avatar>
+            <v-list-tile-action>
+              <v-checkbox v-model="sound"></v-checkbox>
+            </v-list-tile-action>
+            <v-list-tile-content>
+              <v-list-tile-title>Sound</v-list-tile-title>
+              <v-list-tile-sub-title>Auto-update apps at any time. Data charges may apply</v-list-tile-sub-title>
+            </v-list-tile-content>
+          </v-list-tile>
+          <v-list-tile avatar>
+            <v-list-tile-action>
+              <v-checkbox v-model="widgets"></v-checkbox>
+            </v-list-tile-action>
+            <v-list-tile-content>
+              <v-list-tile-title>Auto-add widgets</v-list-tile-title>
+              <v-list-tile-sub-title>Automatically add home screen widgets</v-list-tile-sub-title>
+            </v-list-tile-content>
+          </v-list-tile>
+        </v-list>
+      </v-card>
+    </v-dialog>
+
+    <v-btn color="primary" dark @click.stop="dialog4 = true">Open Dialog 4</v-btn>
+    <v-dialog v-model="dialog4" max-width="500px">
+      <v-card>
+        <v-card-title>
+          Dialog 2
+        </v-card-title>
+        <v-card-text>
+          <v-btn color="primary" dark @click.stop="dialog5 = !dialog5">Open Dialog 3</v-btn>
+          <v-select
+            :items="select"
+            label="A Select List"
+            item-value="text"
+          ></v-select>
+        </v-card-text>
+        <v-card-actions>
+          <v-btn color="primary" flat @click.stop="dialog4=false">Close</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+    <v-dialog v-model="dialog5" max-width="500px">
+      <v-card>
+        <v-card-title>
+          <span>Dialog 5</span>
+          <v-spacer></v-spacer>
+          <v-menu bottom left>
+            <v-btn slot="activator" icon>
+              <v-icon>more_vert</v-icon>
+            </v-btn>
+            <v-list>
+              <v-list-tile v-for="(item, i) in items" :key="i">
+                <v-list-tile-title>{{ item.title }}</v-list-tile-title>
+              </v-list-tile>
+            </v-list>
+          </v-menu>
+        </v-card-title>
+        <v-card-actions>
+          <v-btn color="primary" flat @click.stop="dialog5=false">Close</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+
+    <v-btn
+      :disabled="dialog6"
+      :loading="dialog6"
+      class="white--text"
+      color="purple darken-2"
+      @click.stop="dialog6 = true"
+    >
+      Start loading
+    </v-btn>
+    <v-dialog v-model="dialog6" hide-overlay persistent width="300">
+      <v-card color="primary" dark>
+        <v-card-text>
+          Please stand by
+          <v-progress-linear indeterminate color="white" class="mb-0"></v-progress-linear>
+        </v-card-text>
+      </v-card>
+    </v-dialog>
+  </v-flex>
+
   </div>
 </template>
 
@@ -1342,7 +1501,31 @@ export default {
       snack: false,
       snackColor: '',
       snackText: '',
-      max25chars: (v) => v.length <= 25 || 'Input too long!'
+      max25chars: (v) => v.length <= 25 || 'Input too long!',
+      // dialog
+      dialog1: false,
+      dialog2: false,
+      dialog3: false,
+      notifications: false,
+      sound: true,
+      widgets: false,
+      dialog4: false,
+      dialog5: false,
+      select: [
+        { text: 'State 1' },
+        { text: 'State 2' },
+        { text: 'State 3' },
+        { text: 'State 4' },
+        { text: 'State 5' },
+        { text: 'State 6' },
+        { text: 'State 7' }
+      ],
+      items: [
+        { title: 'Click Me' },
+        { title: 'Click Me' },
+        { title: 'Click Me' },
+      ],
+      dialog6: false
     }
   },
   watch: {
@@ -1353,6 +1536,11 @@ export default {
       setTimeout(() => (this[l] = false), 3000)
 
       this.loader = null
+    },
+    dialog6 (val) {
+      if (!val) return
+
+      setTimeout(() => (this.dialog6 = false), 4000)
     }
   },
   computed: {
