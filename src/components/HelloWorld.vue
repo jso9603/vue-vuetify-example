@@ -1183,6 +1183,47 @@
     </v-dialog>
   </v-flex>
 
+  <v-flex>
+    <span>divider</span>
+    <v-card xs12 sm6 style="height: 150px;">
+      <v-toolbar color="pink" dark>
+        <v-toolbar-side-icon></v-toolbar-side-icon>
+        <v-toolbar-title>Inbox</v-toolbar-title>
+        <v-spacer></v-spacer>
+        <v-btn icon>
+          <v-icon>search</v-icon>
+        </v-btn>
+        <v-btn icon>
+          <v-icon>check_circle</v-icon>
+        </v-btn>
+      </v-toolbar>
+      <v-divider style="margin-top: 10px;"></v-divider>
+
+      <v-divider inset style="margin-top: 10px;"></v-divider>
+      <v-subheader inset>Files</v-subheader>
+    </v-card>
+
+    <v-toolbar color="purple" dark>
+    <v-toolbar-title>Title</v-toolbar-title>
+
+    <v-divider class="mx-3" inset vertical></v-divider>
+
+    <span class="subheading">My Home</span>
+
+    <v-spacer></v-spacer>
+
+    <v-toolbar-items>
+      <v-btn flat>News</v-btn>
+      <v-divider vertical></v-divider>
+      <v-btn flat>Blog</v-btn>
+      <v-divider vertical></v-divider>
+      <v-btn flat>Music</v-btn>
+      <v-divider vertical></v-divider>
+    </v-toolbar-items>
+    <v-toolbar-side-icon></v-toolbar-side-icon>
+  </v-toolbar>
+  </v-flex>
+
   </div>
 </template>
 
