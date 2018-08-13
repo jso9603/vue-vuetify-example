@@ -1286,6 +1286,14 @@
     </v-container>
   </v-flex>
 
+  <v-flex>
+    <span>footer</span>
+     <v-footer color="primary lighten-1">
+      <v-spacer></v-spacer>
+      <div>&copy; {{ new Date().getFullYear() }}</div>
+    </v-footer>
+  </v-flex>
+
   </div>
 </template>
 
