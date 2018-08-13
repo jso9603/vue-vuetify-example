@@ -1224,6 +1224,68 @@
   </v-toolbar>
   </v-flex>
 
+  <v-flex>
+    <span>expansion panel</span>
+    <v-expansion-panel>
+      <v-expansion-panel-content v-for="(item,i) in panelItems" :key="i">
+        <div slot="header">Item</div>
+        <v-card>
+          <v-card-text>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+          </v-card-text>
+        </v-card>
+      </v-expansion-panel-content>
+    </v-expansion-panel>
+
+    <div>
+      <div class="d-flex justify-between align-center mb-3">
+        <v-btn @click="all">all</v-btn>
+        <v-btn @click="none">none</v-btn>
+      </div>
+
+      <v-expansion-panel v-model="panel" expand>
+        <v-expansion-panel-content v-for="(item,i) in 5" :key="i">
+          <div slot="header">Item</div>
+          <v-card>
+            <v-card-text>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+            </v-card-text>
+          </v-card>
+        </v-expansion-panel-content>
+      </v-expansion-panel>
+    </div>
+
+    <v-container>
+      <v-layout row wrap>
+        <v-flex xs12 lg5 mb-3>
+          <v-expansion-panel popout focusable>
+            <v-expansion-panel-content v-for="(item,i) in 3" :key="i">
+              <div slot="header">Item</div>
+              <v-card>
+                <v-card-text>
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                </v-card-text>
+              </v-card>
+            </v-expansion-panel-content>
+          </v-expansion-panel>
+        </v-flex>
+
+        <v-flex xs12 lg5 offset-lg2>
+          <v-expansion-panel inset>
+            <v-expansion-panel-content v-for="(item,i) in 3" :key="i">
+              <div slot="header">Item</div>
+              <v-card>
+                <v-card-text>
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                </v-card-text>
+              </v-card>
+            </v-expansion-panel-content>
+          </v-expansion-panel>
+        </v-flex>
+      </v-layout>
+    </v-container>
+  </v-flex>
+
   </div>
 </template>
 
@@ -1566,7 +1628,10 @@ export default {
         { title: 'Click Me' },
         { title: 'Click Me' },
       ],
-      dialog6: false
+      dialog6: false,
+      // expansion panel
+      panel: [],
+      panelItems: 5
     }
   },
   watch: {
@@ -1631,6 +1696,15 @@ export default {
     },
     close () {
       console.log('Dialog closed')
+    },
+    // Create an array the length of our items
+    // with all values as true
+    all () {
+      this.panel = [...Array(this.panelItems).keys()].map(_ => true)
+    },
+    // Reset the panel
+    none () {
+      this.panel = []
     }
   }
 }
