@@ -22,3 +22,6 @@ npm run lint
 
 #### project
 `vue/cli` 사용
+
+https://kr.vuejs.org/v2/guide/installation.html
+https://vuetifyjs.com/ko/getting-started/quick-start

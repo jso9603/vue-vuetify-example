@@ -356,7 +356,7 @@
     <div>
       <v-breadcrumbs divider="/">
         <v-breadcrumbs-item
-          v-for="item in items"
+          v-for="item in bottomItems"
           :key="item.text"
           :disabled="item.disabled"
         >
@@ -366,7 +366,7 @@
 
       <v-breadcrumbs divider="-">
         <v-breadcrumbs-item
-          v-for="item in items"
+          v-for="item in bottomItems"
           :key="item.text"
           :disabled="item.disabled"
         >
@@ -380,7 +380,7 @@
         <v-icon slot="divider">forward</v-icon>
 
         <v-breadcrumbs-item
-          v-for="item in items"
+          v-for="item in bottomItems"
           :disabled="item.disabled"
           :key="item.text"
         >
@@ -392,7 +392,7 @@
         <v-icon slot="divider">chevron_right</v-icon>
 
         <v-breadcrumbs-item
-          v-for="item in items"
+          v-for="item in bottomItems"
           :disabled="item.disabled"
           :key="item.text"
         >
@@ -667,6 +667,162 @@
     </div>
   </v-flex>
 
+  <v-flex>
+    <span>card</span>
+    <div>
+      <v-flex xs6 sm3>
+        <v-card>
+          <v-card-media
+            class="white--text"
+            height="200px"
+            src="https://cdn.vuetifyjs.com/images/cards/docks.jpg"
+          >
+            <v-container fill-height fluid>
+              <v-layout fill-height>
+                <v-flex xs12 align-end flexbox>
+                  <span class="headline">Top 10 Australian beaches</span>
+                </v-flex>
+              </v-layout>
+            </v-container>
+          </v-card-media>
+          <v-card-title>
+            <div>
+              <span class="grey--text">Number 10</span><br>
+              <span>Whitehaven Beach</span><br>
+              <span>Whitsunday Island, Whitsunday Islands</span>
+            </div>
+          </v-card-title>
+          <v-card-actions>
+            <v-btn flat color="orange">Share</v-btn>
+            <v-btn flat color="orange">Explore</v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-flex>
+
+      <v-flex xs6 sm5>
+        <v-card>
+          <v-card-media
+            src="https://cdn.vuetifyjs.com/images/cards/sunshine.jpg"
+            height="200px"
+          >
+          </v-card-media>
+
+          <v-card-title primary-title>
+            <div>
+              <div class="headline">Top western road trips</div>
+              <span class="grey--text">1,000 miles of wonder</span>
+            </div>
+          </v-card-title>
+
+          <v-card-actions>
+            <v-btn flat>Share</v-btn>
+            <v-btn flat color="purple">Explore</v-btn>
+            <v-spacer></v-spacer>
+            <v-btn icon @click="show = !show">
+              <v-icon>{{ show ? 'keyboard_arrow_down' : 'keyboard_arrow_up' }}</v-icon>
+            </v-btn>
+          </v-card-actions>
+
+          <v-slide-y-transition>
+            <v-card-text v-show="show">
+              I'm a thing. But, like most politicians, he promised more than he could deliver. You won't have time for sleeping, soldier, not with all the bed making you'll be doing. Then we'll go with that data file! Hey, you add a one and two zeros to that or we walk! You're going to do his laundry? I've got to find a way to escape.
+            </v-card-text>
+          </v-slide-y-transition>
+        </v-card>
+      </v-flex>
+    </div>
+  </v-flex>
+
+  <v-flex>
+    <span>carousel</span>
+    <v-carousel>
+      <!-- <v-carousel
+    delimiter-icon="stop"
+    prev-icon="mdi-arrow-left"
+    next-icon="mdi-arrow-right"
+  > -->
+      <v-carousel-item
+        v-for="(item,i) in carousels"
+        :key="i"
+        :src="item.src"
+      ></v-carousel-item>
+    </v-carousel>
+  </v-flex>
+
+  <v-flex>
+    <span>chip</span>
+    <v-chip color="secondary" text-color="white">Secondary</v-chip>
+    <v-chip color="primary" text-color="white">
+      1 Year
+      <v-icon right>cake</v-icon>
+    </v-chip>
+    <v-chip outline color="primary">Colored</v-chip>
+    <v-chip label color="pink" text-color="white">
+      <v-icon left>label</v-icon>Tags
+    </v-chip>
+    <v-chip v-model="chip" close color="green" outline>Success</v-chip>
+
+    <v-combobox v-model="chips" :items="chipsItems" label="Your favorite hobbies" chips clearable prepend-icon="filter_list" solo multiple>
+      <template slot="selection" slot-scope="data">
+        <v-chip :selected="data.selected" close @input="remove(data.item)">
+          <strong>{{ data.item }}</strong>&nbsp;
+          <span>(interest)</span>
+        </v-chip>
+      </template>
+    </v-combobox>
+  </v-flex>
+
+  <v-flex>
+    <span>data iterator</span>
+    <v-container fluid grid-list-md>
+    <v-data-iterator
+      :items="dataItems"
+      :rows-per-page-items="rowsPerPageItems"
+      :pagination.sync="pagination"
+      content-tag="v-layout"
+      row
+      wrap
+    >
+      <v-flex slot="item" slot-scope="props" xs12 sm6 md4 lg3>
+        <v-card>
+          <v-card-title><h4>{{ props.item.name }}</h4></v-card-title>
+          <v-divider></v-divider>
+          <v-list dense>
+            <v-list-tile>
+              <v-list-tile-content>Calories:</v-list-tile-content>
+              <v-list-tile-content class="align-end">{{ props.item.calories }}</v-list-tile-content>
+            </v-list-tile>
+            <v-list-tile>
+              <v-list-tile-content>Fat:</v-list-tile-content>
+              <v-list-tile-content class="align-end">{{ props.item.fat }}</v-list-tile-content>
+            </v-list-tile>
+            <v-list-tile>
+              <v-list-tile-content>Carbs:</v-list-tile-content>
+              <v-list-tile-content class="align-end">{{ props.item.carbs }}</v-list-tile-content>
+            </v-list-tile>
+            <v-list-tile>
+              <v-list-tile-content>Protein:</v-list-tile-content>
+              <v-list-tile-content class="align-end">{{ props.item.protein }}</v-list-tile-content>
+            </v-list-tile>
+            <v-list-tile>
+              <v-list-tile-content>Sodium:</v-list-tile-content>
+              <v-list-tile-content class="align-end">{{ props.item.sodium }}</v-list-tile-content>
+            </v-list-tile>
+            <v-list-tile>
+              <v-list-tile-content>Calcium:</v-list-tile-content>
+              <v-list-tile-content class="align-end">{{ props.item.calcium }}</v-list-tile-content>
+            </v-list-tile>
+            <v-list-tile>
+              <v-list-tile-content>Iron:</v-list-tile-content>
+              <v-list-tile-content class="align-end">{{ props.item.iron }}</v-list-tile-content>
+            </v-list-tile>
+          </v-list>
+        </v-card>
+      </v-flex>
+    </v-data-iterator>
+  </v-container>
+  </v-flex>
+
   </div>
 </template>
 
@@ -721,7 +877,7 @@ export default {
         { img: 'messenger.png', title: 'Messenger' },
         { img: 'google.png', title: 'Google+' }
       ],
-      items: [
+      bottomItems: [
         { text: 'Dashboard', disabled: false },
         { text: 'Link 1', disabled: false },
         { text: 'Link 2', disabled: true }
@@ -752,7 +908,126 @@ export default {
       loading: false,
       loading2: false,
       loading3: false,
-      loading4: false
+      loading4: false,
+      // card
+      show: false,
+      // carousel
+      carousels: [
+          { src: 'https://cdn.vuetifyjs.com/images/carousel/squirrel.jpg' },
+          { src: 'https://cdn.vuetifyjs.com/images/carousel/sky.jpg' },
+          { src: 'https://cdn.vuetifyjs.com/images/carousel/bird.jpg' },
+          { src: 'https://cdn.vuetifyjs.com/images/carousel/planet.jpg' }
+        ],
+      // chip
+      chip: true,
+      chips: ['Programming', 'Playing video games', 'Watching movies', 'Sleeping'],
+      chipsItems: ['Streaming', 'Eating'],
+      // data iterator
+      rowsPerPageItems: [4, 8, 12],
+      pagination: {
+        rowsPerPage: 4
+      },
+      dataItems: [
+        {
+          value: false,
+          name: 'Frozen Yogurt',
+          calories: 159,
+          fat: 6.0,
+          carbs: 24,
+          protein: 4.0,
+          sodium: 87,
+          calcium: '14%',
+          iron: '1%'
+        },
+        {
+          value: false,
+          name: 'Ice cream sandwich',
+          calories: 237,
+          fat: 9.0,
+          carbs: 37,
+          protein: 4.3,
+          sodium: 129,
+          calcium: '8%',
+          iron: '1%'
+        },
+        {
+          value: false,
+          name: 'Eclair',
+          calories: 262,
+          fat: 16.0,
+          carbs: 23,
+          protein: 6.0,
+          sodium: 337,
+          calcium: '6%',
+          iron: '7%'
+        },
+        {
+          value: false,
+          name: 'Cupcake',
+          calories: 305,
+          fat: 3.7,
+          carbs: 67,
+          protein: 4.3,
+          sodium: 413,
+          calcium: '3%',
+          iron: '8%'
+        },
+        {
+          value: false,
+          name: 'Gingerbread',
+          calories: 356,
+          fat: 16.0,
+          carbs: 49,
+          protein: 3.9,
+          sodium: 327,
+          calcium: '7%',
+          iron: '16%'
+        },
+        {
+          value: false,
+          name: 'Jelly bean',
+          calories: 375,
+          fat: 0.0,
+          carbs: 94,
+          protein: 0.0,
+          sodium: 50,
+          calcium: '0%',
+          iron: '0%'
+        },
+        {
+          value: false,
+          name: 'Lollipop',
+          calories: 392,
+          fat: 0.2,
+          carbs: 98,
+          protein: 0,
+          sodium: 38,
+          calcium: '0%',
+          iron: '2%'
+        },
+        {
+          value: false,
+          name: 'Honeycomb',
+          calories: 408,
+          fat: 3.2,
+          carbs: 87,
+          protein: 6.5,
+          sodium: 562,
+          calcium: '0%',
+          iron: '45%'
+        },
+        {
+          value: false,
+          name: 'Donut',
+          calories: 452,
+          fat: 25.0,
+          carbs: 51,
+          protein: 4.9,
+          sodium: 326,
+          calcium: '2%',
+          iron: '22%'
+        }
+      ]
     }
   },
   watch: {
@@ -776,6 +1051,12 @@ export default {
         case 2: return 'brown'
         case 3: return 'indigo'
       }
+    }
+  },
+  method: {
+    remove (item) {
+      this.chips.splice(this.chips.indexOf(item), 1)
+      this.chips = [...this.chips]
     }
   }
 }
