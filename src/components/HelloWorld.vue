@@ -1294,6 +1294,54 @@
     </v-footer>
   </v-flex>
 
+  <v-flex>
+    <span>autocomplete</span>
+    <v-card>
+      <v-card-title class="headline font-weight-regular blue-grey white--text">Profile</v-card-title>
+      <v-card-text>
+        <v-subheader class="pa-0">Where do you live?</v-subheader>
+        <v-autocomplete
+          v-model="model"
+          :hint="!isEditing ? 'Click the icon to edit' : 'Click the icon to save'"
+          :items="states"
+          :readonly="!isEditing"
+          :label="`State — ${isEditing ? 'Editable' : 'Readonly'}`"
+          persistent-hint
+          prepend-icon="mdi-city"
+        >
+          <v-slide-x-reverse-transition slot="append-outer" mode="out-in">
+            <v-icon
+              :color="isEditing ? 'success' : 'info'"
+              :key="`icon-${isEditing}`"
+              @click="isEditing = !isEditing"
+              v-text="isEditing ? 'OK' : 'EDIT'"
+            ></v-icon>
+          </v-slide-x-reverse-transition>
+        </v-autocomplete>
+      </v-card-text>
+    </v-card>
+
+    <v-toolbar dark color="teal">
+      <v-toolbar-title>State selection</v-toolbar-title>
+      <v-autocomplete
+        :loading="loading"
+        :items="autoCompleteItems"
+        :search-input.sync="autoCompleteSearch"
+        v-model="select"
+        cache-items
+        class="mx-3"
+        flat
+        hide-no-data
+        hide-details
+        label="What state are you from?"
+        solo-inverted
+      ></v-autocomplete>
+      <v-btn icon>
+        <v-icon>more_vert</v-icon>
+      </v-btn>
+    </v-toolbar>
+  </v-flex>
+
   </div>
 </template>
 
@@ -1639,7 +1687,20 @@ export default {
       dialog6: false,
       // expansion panel
       panel: [],
-      panelItems: 5
+      panelItems: 5,
+      // autocomplete
+      isEditing: false,
+      model: null,
+      states: [
+        'Alabama', 'Alaska', 'American Samoa', 'Arizona',
+        'Arkansas', 'California', 'Colorado', 'Connecticut',
+        'Florida', 'Georgia', 'Guam', 'Hawaii', 'Idaho',
+        'Illinois', 'Indiana', 'Iowa', 'Kansas', 'Kentucky',
+        'New Hampshire', 'New Jersey', 'New Mexico', 'New York'
+      ],
+      loading: false,
+      autoCompleteSearch: null,
+      autoCompleteItems: []
     }
   },
   watch: {
@@ -1655,6 +1716,9 @@ export default {
       if (!val) return
 
       setTimeout(() => (this.dialog6 = false), 4000)
+    },
+    autoCompleteSearch (val) {
+      val && val !== this.select && this.querySelections(val)
     }
   },
   computed: {
@@ -1713,6 +1777,16 @@ export default {
     // Reset the panel
     none () {
       this.panel = []
+    },
+    querySelections (v) {
+      this.loading = true
+      // Simulated ajax query
+      setTimeout(() => {
+        this.autoCompleteItems = this.states.filter(e => {
+          return (e || '').toLowerCase().indexOf((v || '').toLowerCase()) > -1
+        })
+        this.loading = false
+      }, 500)
     }
   }
 }
