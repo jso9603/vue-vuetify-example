@@ -1342,6 +1342,98 @@
     </v-toolbar>
   </v-flex>
 
+  <v-flex>
+    <span>combobox</span>
+    <v-combobox
+      v-model="comboboxSelect"
+      :items="comboboxItems"
+      label="Select a favorite activity or create a new one"
+    ></v-combobox>
+    <v-combobox
+      v-model="comboboxSelect"
+      :items="comboboxItems"
+      chips
+      label="I use chips"
+    ></v-combobox>
+    <v-combobox
+      v-model="comboboxSelect"
+      :items="comboboxItems"
+      chips
+      label="I use a scoped slot"
+    >
+      <template slot="selection" slot-scope="data">
+        <v-chip
+          :selected="data.selected"
+          :disabled="data.disabled"
+          :key="JSON.stringify(data.item)"
+          class="v-chip--select-multi "
+          @input="data.parent.selectItem(data.item)"
+        >
+          <v-avatar class="accent white--text">
+            {{ data.item.slice(0, 1).toUpperCase() }}
+          </v-avatar>
+          {{ data.item }}
+        </v-chip>
+      </template>
+    </v-combobox>
+
+    <v-container fluid>
+      <v-layout wrap>
+        <v-flex xs12>
+          <v-combobox
+            v-model="comboboxSelect1"
+            :items="comboboxItems1"
+            label="Select a favorite activity or create a new one"
+            multiple
+          ></v-combobox>
+        </v-flex>
+        <v-flex xs12>
+          <v-combobox
+            v-model="comboboxSelect1"
+            :items="comboboxItems1"
+            label="I use chips"
+            multiple
+            chips
+          ></v-combobox>
+        </v-flex>
+        <v-flex xs12>
+          <v-combobox
+            v-model="comboboxSelect1"
+            :items="comboboxItems1"
+            label="I use a scoped slot"
+            multiple
+            chips
+          >
+            <template slot="selection" slot-scope="data">
+              <v-chip
+                :selected="data.selected"
+                :disabled="data.disabled"
+                :key="JSON.stringify(data.item)"
+                class="v-chip--select-multi"
+                @input="data.parent.selectItem(data.item)"
+              >
+                <v-avatar
+                  class="accent white--text"
+                  v-text="data.item.slice(0, 1).toUpperCase()"
+                ></v-avatar>
+                {{ data.item }}
+              </v-chip>
+            </template>
+          </v-combobox>
+        </v-flex>
+        <v-flex xs12>
+          <v-combobox
+            v-model="comboboxSelect1"
+            label="I'm readonly"
+            chips
+            multiple
+            readonly
+          ></v-combobox>
+        </v-flex>
+      </v-layout>
+    </v-container>
+  </v-flex>
+
   </div>
 </template>
 
@@ -1700,7 +1792,12 @@ export default {
       ],
       loading: false,
       autoCompleteSearch: null,
-      autoCompleteItems: []
+      autoCompleteItems: [],
+      // combobox
+      comboboxSelect: 'Programming',
+      comboboxItems: [ 'Programming', 'Design', 'Vue', 'Vuetify' ],
+      comboboxSelect1: ['Vuetify', 'Programming'],
+      comboboxItems1: ['Programming', 'Design', 'Vue', 'Vuetify' ]
     }
   },
   watch: {
